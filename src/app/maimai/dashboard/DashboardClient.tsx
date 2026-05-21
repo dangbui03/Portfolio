@@ -372,7 +372,7 @@ export default function DashboardClient({ user, initialScores }: DashboardClient
                 Last Telemetry Sync
               </span>
               <span className="text-xs font-mono text-cyan-400 mt-1 block">
-                {user.syncTime ? new Date(user.syncTime).toLocaleString() : "Never synced"}
+                {mounted && user.syncTime ? new Date(user.syncTime).toLocaleString() : (user.syncTime ? "Syncing..." : "Never synced")}
               </span>
             </div>
           </GlassCard>
