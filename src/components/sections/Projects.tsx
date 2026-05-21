@@ -87,6 +87,22 @@ export const Projects: React.FC = () => {
         loadTime: "88ms cold",
       },
     },
+    {
+      title: "Maimai Telemetry Sync",
+      desc: "A fully integrated SEGA ID live rating visualizer and score analytics engine with local SQLite database Drizzle synchronization.",
+      longDesc: "Maimai Telemetry connects securely to mock or real SEGA ID Net scrapers, performing atomic Drizzle ORM SQLite transactions to sync player profiles, custom rating indexes, play counts, and songs. Supports dynamic level distribution tracking, interactive likes persistence, and real-time Recharts statistics.",
+      tags: ["Next.js", "Drizzle ORM", "SQLite", "Recharts"],
+      github: "#",
+      demo: "/maimai",
+      floatDelay: 0.75,
+      icon: <BarChart2 className="w-5 h-5 text-yellow-400" />,
+      telemetry: {
+        fps: "60.0 FPS stable",
+        efficiency: "100% atomic",
+        memory: "11.2 MB offset",
+        loadTime: "45ms direct",
+      },
+    },
   ];
 
   return (
@@ -124,7 +140,7 @@ export const Projects: React.FC = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {projectsData.map((project, idx) => (
             <Dialog key={idx}>
               <DialogTrigger
@@ -217,7 +233,7 @@ export const Projects: React.FC = () => {
                         href={project.demo}
                         className="text-xs font-mono text-slate-400 hover:text-slate-200 flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
-                        <Cpu className="w-3.5 h-3.5" /> Orbit Demo
+                        <Cpu className="w-3.5 h-3.5" /> {project.title.includes("Maimai") ? "Launch Portal" : "Orbit Demo"}
                       </a>
                     )}
                   </div>

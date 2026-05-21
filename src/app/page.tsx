@@ -37,12 +37,8 @@ export default function Home() {
               <a href="#" className="hover:text-slate-100 transition-colors">Orbit</a>
               <a href="#projects" className="hover:text-slate-100 transition-colors">Experiments</a>
               <a 
-                href="#" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-                }} 
-                className="hover:text-slate-100 transition-colors"
+                href="/maimai" 
+                className="hover:text-cyan-400 transition-colors"
               >
                 Telemetry
               </a>
