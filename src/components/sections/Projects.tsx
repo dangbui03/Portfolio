@@ -145,7 +145,7 @@ export const Projects: React.FC = () => {
             <Dialog key={idx}>
               <DialogTrigger
                 render={
-                  <div className="cursor-pointer h-full" />
+                  <button className="cursor-pointer h-full text-left w-full bg-transparent border-none p-0 outline-none block" />
                 }
               >
                 <GlassCard
