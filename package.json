@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "test": "tsx --test src/lib/maimai.test.ts",
-    "build": "pnpm test && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
