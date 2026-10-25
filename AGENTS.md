@@ -37,6 +37,7 @@ This file serves as the permanent contextual memory for all AI agents working on
 | `56dd5dd` | Integrated automated unit tests running before Next.js production builds (`tsx --test`). |
 | **Clean Start** | Erased Maimai module, database, galaxy theme, and reset `src` to clean starter portfolio. Pre-change state backed up in `backup/2026-10-22_140800`. |
 | **Autumn Crossroads** | Built interactive Autumn Crossroads & Wooden Signpost hero (`SignpostNav.tsx`), autumn parchment theme tokens, and grounded content sections (`#about`, `#blog`, `#projects`, `#contact`). Pre-change state backed up in `backup/2026-10-22_161600`. |
+| **360° Signpost & React 19 Fix** | Resolved React 19 `<Html>` synchronous root unmount warning via microtask deferred unmount, enabled full 360° OrbitControls rotation with double-sided backface rendering, aligned directional board layout, and created dedicated starter routes (`/about`, `/blog`, `/projects`, `/contact`). |
 
 ---
 

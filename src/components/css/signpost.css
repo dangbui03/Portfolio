@@ -1,84 +1,135 @@
 
 .signpost-scene {
   width: 100%;
-  height: min(720px, 85vh);
-  min-height: 500px;
+  height: min(740px, 85vh);
+  min-height: 520px;
   overflow: hidden;
   position: relative;
   background: #f4ecdc;
+  user-select: none;
+}
+
+/* Ensure 3D transform container handles backface correctly */
+.sign-html-container {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  pointer-events: auto;
 }
 
 .sign-label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: 360px;
-  padding: 12px 14px;
-  color: #4a3023;
+  gap: 10px;
+  width: 330px;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  color: #3e2619;
   text-decoration: none;
   white-space: nowrap;
+  background: rgba(245, 235, 220, 0.45);
+  border: 1px solid rgba(110, 72, 45, 0.18);
+  border-radius: 8px;
+  backdrop-filter: blur(2px);
   transition:
-    transform 250ms ease,
-    filter 250ms ease;
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
   cursor: pointer;
 }
 
-.sign-label:hover {
-  transform: translateY(-3px);
-  filter: drop-shadow(0 5px 5px #4a302326);
+/* Left-pointing board: arrow/tip on left, attached to post on right */
+.sign-label-left {
+  padding-left: 12px;
+  padding-right: 18px;
+}
+
+/* Right-pointing board: attached to post on left, arrow/tip on right */
+.sign-label-right {
+  padding-left: 18px;
+  padding-right: 12px;
+}
+
+.sign-label:hover,
+.sign-label-active {
+  background: rgba(255, 247, 235, 0.95);
+  border-color: #a35d28;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(74, 48, 35, 0.18);
 }
 
 .sign-icon {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
   display: grid;
   place-items: center;
-  border-radius: 9px;
-  background: #634b3c;
-  color: #f2a12e;
-  font-size: 23px;
+  border-radius: 8px;
+  background: #54392a;
+  color: #f5b041;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform 200ms ease, background 200ms ease;
+}
+
+.sign-label:hover .sign-icon {
+  background: #a35d28;
+  color: #ffffff;
+  transform: scale(1.08);
 }
 
 .sign-copy {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
+  min-width: 0;
 }
 
 .sign-copy strong {
-  font: bold 22px Georgia, serif;
-  letter-spacing: -0.5px;
+  font: 700 20px Georgia, serif;
+  letter-spacing: -0.3px;
+  color: #382115;
+  line-height: 1.15;
 }
 
 .sign-copy small {
-  color: #a17d5b;
-  font: 11px Arial, sans-serif;
+  color: #8c6748;
+  font: 11px system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .sign-distance {
-  margin-left: auto;
-  padding: 5px 8px;
-  border-radius: 4px;
-  color: #efb46b;
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: #fae1c3;
   background: #4a3023;
-  font: bold 10px Arial, sans-serif;
+  font: bold 10px monospace;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: background 200ms ease;
 }
 
-@media (max-width: 600px) {
+.sign-label:hover .sign-distance {
+  background: #874719;
+  color: #fff;
+}
+
+@media (max-width: 640px) {
   .signpost-scene {
     height: 600px;
-    min-height: 0;
+    min-height: 480px;
   }
 
   .sign-label {
-    width: 270px;
-    gap: 7px;
-    padding: 8px;
+    width: 280px;
+    gap: 8px;
+    padding: 8px 10px;
   }
 
   .sign-copy strong {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .sign-copy small {
@@ -86,20 +137,14 @@
   }
 
   .sign-icon {
-    width: 30px;
-    height: 30px;
-    flex-basis: 30px;
-    font-size: 19px;
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+    font-size: 15px;
   }
 
   .sign-distance {
     font-size: 9px;
-    padding: 4px 5px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sign-label {
-    transition: none;
+    padding: 3px 6px;
   }
 }

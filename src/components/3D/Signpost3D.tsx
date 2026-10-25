@@ -1,12 +1,17 @@
-
 'use client';
 
-import { useMemo, useState } from 'react';
+import React, { createContext, useContext, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { Canvas } from '@react-three/fiber';
+import Link from 'next/link';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { ContactShadows, Html, OrbitControls } from '@react-three/drei';
 
 import '@/components/css/signpost.css';
+
+// Context providing a stable DOM container ref to prevent Drei's <Html> from unmounting during render
+const HtmlPortalContext = createContext<React.RefObject<HTMLDivElement | null>>({
+  current: null,
+});
 
 type DirectionSignProps = {
   title: string;
@@ -15,6 +20,7 @@ type DirectionSignProps = {
   href: string;
   side: 'left' | 'right';
   y: number;
+  icon: string;
 };
 
 function DirectionSign({
@@ -24,14 +30,40 @@ function DirectionSign({
   href,
   side,
   y,
+  icon,
 }: DirectionSignProps) {
   const [hovered, setHovered] = useState(false);
+  const groupRef = useRef<THREE.Group>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
+  const portalRef = useContext(HtmlPortalContext);
+
+  // Smoothly damp tilt on hover to avoid rapid jitter loops
+  useFrame((_, delta) => {
+    if (groupRef.current) {
+      const targetRotY = hovered ? (side === 'left' ? -0.12 : 0.12) : 0;
+      groupRef.current.rotation.y = THREE.MathUtils.damp(
+        groupRef.current.rotation.y,
+        targetRotY,
+        8,
+        delta,
+      );
+    }
+    if (meshRef.current) {
+      const targetZ = hovered ? 0.08 : 0;
+      meshRef.current.position.z = THREE.MathUtils.damp(
+        meshRef.current.position.z,
+        targetZ,
+        8,
+        delta,
+      );
+    }
+  });
 
   const shape = useMemo(() => {
     const s = new THREE.Shape();
     const w = 2.7;
-    const h = 0.76;
-    const tip = 0.32;
+    const h = 0.74;
+    const tip = 0.34;
 
     if (side === 'left') {
       s.moveTo(-w / 2 + tip, -h / 2);
@@ -58,29 +90,70 @@ function DirectionSign({
         bevelEnabled: true,
         bevelSegments: 3,
         steps: 1,
-        bevelSize: 0.025,
-        bevelThickness: 0.025,
+        bevelSize: 0.02,
+        bevelThickness: 0.02,
       }),
     [shape],
   );
 
+  // Sign label content formatted for directional layout
+  const renderLabelContent = (isReverseDirection: boolean = false) => {
+    const isPointingLeft =
+      (!isReverseDirection && side === 'left') ||
+      (isReverseDirection && side === 'right');
+
+    return (
+      <Link
+        href={href}
+        className={`sign-label ${isPointingLeft ? 'sign-label-left' : 'sign-label-right'} ${hovered ? 'sign-label-active' : ''}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {isPointingLeft ? (
+          <>
+            <span className="sign-icon" title={title}>
+              {icon}
+            </span>
+            <span className="sign-copy">
+              <strong>{title}</strong>
+              <small>{subtitle}</small>
+            </span>
+            <span className="sign-distance" style={{ marginLeft: 'auto' }}>
+              {distance}
+            </span>
+          </>
+        ) : (
+          <>
+            <span className="sign-distance" style={{ marginRight: 'auto' }}>
+              {distance}
+            </span>
+            <span className="sign-copy" style={{ textAlign: 'right' }}>
+              <strong>{title}</strong>
+              <small>{subtitle}</small>
+            </span>
+            <span className="sign-icon" title={title}>
+              {icon}
+            </span>
+          </>
+        )}
+      </Link>
+    );
+  };
+
   return (
     <group
+      ref={groupRef}
       position={[side === 'left' ? -1.48 : 1.48, y, 0]}
-      rotation={[
-        0,
-        hovered ? (side === 'left' ? -0.1 : 0.1) : 0,
-        side === 'left' ? -0.035 : 0.035,
-      ]}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
+      rotation={[0, 0, side === 'left' ? -0.025 : 0.025]}
     >
-      {/* The sign is a genuinely extruded 3D shape */}
+      {/* Extruded 3D wooden sign plank */}
       <mesh
+        ref={meshRef}
         geometry={geometry}
-        position={[hovered ? 0 : 0, 0, hovered ? 0.12 : 0]}
         castShadow
         receiveShadow
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
       >
         <meshStandardMaterial
           color={hovered ? '#f5e8d3' : '#dfd1bd'}
@@ -89,50 +162,45 @@ function DirectionSign({
         />
       </mesh>
 
-      {/* Metal mounting pins */}
+      {/* Metal mounting pins fastening plank to the central pole */}
       {[-0.17, 0.17].map((pinY) => (
         <mesh
           key={pinY}
-          position={[side === 'left' ? 1.12 : -1.12, pinY, 0.17]}
+          position={[side === 'left' ? 1.12 : -1.12, pinY, 0.16]}
           castShadow
         >
-          <cylinderGeometry args={[0.045, 0.045, 0.035, 20]} />
+          <cylinderGeometry args={[0.045, 0.045, 0.04, 20]} />
           <meshStandardMaterial
             color="#342219"
-            metalness={0.65}
-            roughness={0.3}
+            metalness={0.7}
+            roughness={0.25}
           />
         </mesh>
       ))}
 
-      {/* HTML gives crisp, accessible website text */}
+      {/* FRONT FACE HTML (visible when viewing from front) */}
       <Html
+        portal={portalRef as unknown as React.RefObject<HTMLElement>}
         transform
-        position={[side === 'left' ? 0.05 : -0.05, 0, 0.19]}
+        position={[side === 'left' ? 0.06 : -0.06, 0, 0.17]}
         center
         distanceFactor={1.35}
-        style={{ pointerEvents: 'auto' }}
+        className="sign-html-container"
       >
-        <a
-          className={`sign-label ${hovered ? 'sign-label-active' : ''}`}
-          href={href}
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
-        >
-          <span className="sign-icon">
-            {title === 'About' && '◎'}
-            {title === 'Field Notes' && '▤'}
-            {title === 'Projects' && '▣'}
-            {title === 'Campfire' && '➤'}
-          </span>
+        {renderLabelContent(false)}
+      </Html>
 
-          <span className="sign-copy">
-            <strong>{title}</strong>
-            <small>{subtitle}</small>
-          </span>
-
-          <span className="sign-distance">{distance}</span>
-        </a>
+      {/* BACK FACE HTML (rotated 180°, visible when camera orbits 360° to the back) */}
+      <Html
+        portal={portalRef as unknown as React.RefObject<HTMLElement>}
+        transform
+        position={[side === 'left' ? 0.06 : -0.06, 0, -0.05]}
+        rotation={[0, Math.PI, 0]}
+        center
+        distanceFactor={1.35}
+        className="sign-html-container"
+      >
+        {renderLabelContent(true)}
       </Html>
     </group>
   );
@@ -170,43 +238,51 @@ function Scene() {
         <meshStandardMaterial color="#332016" roughness={0.45} />
       </mesh>
 
+      {/* Top Sign: About */}
       <DirectionSign
         title="About"
         subtitle="Story, craft & path"
         distance="0.2 km"
-        href="#about"
+        href="/about"
         side="left"
         y={2.05}
+        icon="◎"
       />
 
+      {/* Second Sign: Blog */}
       <DirectionSign
-        title="Field Notes"
+        title="Blog"
         subtitle="Thoughts & essays"
         distance="0.6 km"
-        href="#notes"
+        href="/blog"
         side="right"
         y={0.72}
+        icon="▤"
       />
 
+      {/* Third Sign: Projects */}
       <DirectionSign
         title="Projects"
         subtitle="Selected works & tools"
         distance="1.2 km"
-        href="#projects"
+        href="/projects"
         side="left"
         y={-0.7}
+        icon="▣"
       />
 
+      {/* Bottom Sign: Contact */}
       <DirectionSign
-        title="Campfire"
-        subtitle="Say hello & guestbook"
+        title="Contact"
+        subtitle="Say hello & campfire"
         distance="1.8 km"
-        href="#campfire"
+        href="/contact"
         side="right"
         y={-2.05}
+        icon="✉"
       />
 
-      {/* Ground shadows */}
+      {/* Ground contact shadow */}
       <ContactShadows
         position={[0, -2.95, 0]}
         opacity={0.35}
@@ -215,30 +291,36 @@ function Scene() {
         far={4}
       />
 
+      {/* Full 360-degree orbit rotation without azimuth angle clamps */}
       <OrbitControls
         enablePan={false}
         enableZoom={false}
-        minPolarAngle={Math.PI / 2.5}
-        maxPolarAngle={Math.PI / 1.8}
-        minAzimuthAngle={-0.35}
-        maxAzimuthAngle={0.35}
+        enableDamping={true}
+        dampingFactor={0.06}
+        rotateSpeed={0.85}
+        minPolarAngle={Math.PI / 3}
+        maxPolarAngle={Math.PI / 1.7}
       />
     </>
   );
 }
 
 export default function Signpost3D() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="signpost-scene">
-      <Canvas
-        shadows
-        dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 10], fov: 38 }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <color attach="background" args={['#f4ecdc']} />
-        <Scene />
-      </Canvas>
+    <div ref={containerRef} className="signpost-scene">
+      <HtmlPortalContext.Provider value={containerRef}>
+        <Canvas
+          shadows
+          dpr={[1, 1.5]}
+          camera={{ position: [0, 0, 10], fov: 38 }}
+          gl={{ antialias: true, alpha: true }}
+        >
+          <color attach="background" args={['#f4ecdc']} />
+          <Scene />
+        </Canvas>
+      </HtmlPortalContext.Provider>
     </div>
   );
 }
