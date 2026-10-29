@@ -37,33 +37,52 @@ function DirectionSign({
   const meshRef = useRef<THREE.Mesh>(null);
   const portalRef = useContext(HtmlPortalContext);
 
-  // Smoothly damp tilt on hover to avoid rapid jitter loops
+  // Smooth pendulum sway, tilt, and forward rise on hover
   useFrame((_, delta) => {
     if (groupRef.current) {
-      const targetRotY = hovered ? (side === 'left' ? -0.12 : 0.12) : 0;
+      // Smooth pendulum swing rotation on Y
+      const targetRotY = hovered ? (side === 'left' ? -0.16 : 0.16) : 0;
       groupRef.current.rotation.y = THREE.MathUtils.damp(
         groupRef.current.rotation.y,
         targetRotY,
+        8.5,
+        delta,
+      );
+
+      // Gentle natural dynamic tilt on Z
+      const baseTiltZ = side === 'left' ? -0.025 : 0.025;
+      const targetRotZ =
+        baseTiltZ + (hovered ? (side === 'left' ? -0.035 : 0.035) : 0);
+      groupRef.current.rotation.z = THREE.MathUtils.damp(
+        groupRef.current.rotation.z,
+        targetRotZ,
         8,
         delta,
       );
     }
+
     if (meshRef.current) {
-      const targetZ = hovered ? 0.08 : 0;
+      // Tactile forward rise on Z
+      const targetZ = hovered ? 0.12 : 0;
       meshRef.current.position.z = THREE.MathUtils.damp(
         meshRef.current.position.z,
         targetZ,
-        8,
+        8.5,
         delta,
       );
+
+      // Smooth material highlight
+      const mat = meshRef.current.material as THREE.MeshStandardMaterial;
+      const targetColor = new THREE.Color(hovered ? '#f5e8d3' : '#dfd1bd');
+      mat.color.lerp(targetColor, 0.15);
     }
   });
 
   const shape = useMemo(() => {
     const s = new THREE.Shape();
-    const w = 2.7;
-    const h = 0.74;
-    const tip = 0.34;
+    const w = 3.0;
+    const h = 0.86;
+    const tip = 0.36;
 
     if (side === 'left') {
       s.moveTo(-w / 2 + tip, -h / 2);
@@ -143,7 +162,7 @@ function DirectionSign({
   return (
     <group
       ref={groupRef}
-      position={[side === 'left' ? -1.48 : 1.48, y, 0]}
+      position={[side === 'left' ? -1.65 : 1.65, y, 0]}
       rotation={[0, 0, side === 'left' ? -0.025 : 0.025]}
     >
       {/* Extruded 3D wooden sign plank */}
@@ -156,17 +175,17 @@ function DirectionSign({
         onPointerOut={() => setHovered(false)}
       >
         <meshStandardMaterial
-          color={hovered ? '#f5e8d3' : '#dfd1bd'}
+          color="#dfd1bd"
           roughness={0.72}
           metalness={0.03}
         />
       </mesh>
 
       {/* Metal mounting pins fastening plank to the central pole */}
-      {[-0.17, 0.17].map((pinY) => (
+      {[-0.2, 0.2].map((pinY) => (
         <mesh
           key={pinY}
-          position={[side === 'left' ? 1.12 : -1.12, pinY, 0.16]}
+          position={[side === 'left' ? 1.25 : -1.25, pinY, 0.16]}
           castShadow
         >
           <cylinderGeometry args={[0.045, 0.045, 0.04, 20]} />
@@ -182,7 +201,7 @@ function DirectionSign({
       <Html
         portal={portalRef as unknown as React.RefObject<HTMLElement>}
         transform
-        position={[side === 'left' ? 0.06 : -0.06, 0, 0.17]}
+        position={[side === 'left' ? 0.08 : -0.08, 0, 0.18]}
         center
         distanceFactor={1.35}
         className="sign-html-container"
@@ -194,7 +213,7 @@ function DirectionSign({
       <Html
         portal={portalRef as unknown as React.RefObject<HTMLElement>}
         transform
-        position={[side === 'left' ? 0.06 : -0.06, 0, -0.05]}
+        position={[side === 'left' ? 0.08 : -0.08, 0, -0.06]}
         rotation={[0, Math.PI, 0]}
         center
         distanceFactor={1.35}

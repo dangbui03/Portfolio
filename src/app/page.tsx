@@ -5,8 +5,8 @@ import SignpostNav from "@/components/hero/SignpostNav";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#3a2014] selection:bg-[#d97706]/20 selection:text-[#78350f]">
+    <main className="h-screen h-[100dvh] w-full overflow-hidden bg-[#f4ecdc] selection:bg-[#d97706]/20 selection:text-[#78350f]">
       <SignpostNav />
-    </div>
+    </main>
   );
 }
