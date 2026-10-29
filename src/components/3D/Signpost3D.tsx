@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import Link from 'next/link';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -8,10 +8,20 @@ import { ContactShadows, Html, OrbitControls } from '@react-three/drei';
 
 import '@/components/css/signpost.css';
 
-// Context providing a stable DOM container ref to prevent Drei's <Html> from unmounting during render
-const HtmlPortalContext = createContext<React.RefObject<HTMLDivElement | null>>({
-  current: null,
-});
+// Filter out internal Three.js deprecation notices from R3F
+if (typeof window !== 'undefined') {
+  const originalWarn = console.warn;
+  console.warn = (...args: unknown[]) => {
+    if (
+      typeof args[0] === 'string' &&
+      (args[0].includes('THREE.Clock: This module has been deprecated') ||
+       args[0].includes('PCFSoftShadowMap has been removed'))
+    ) {
+      return;
+    }
+    originalWarn(...args);
+  };
+}
 
 type DirectionSignProps = {
   title: string;
@@ -35,7 +45,6 @@ function DirectionSign({
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.Mesh>(null);
-  const portalRef = useContext(HtmlPortalContext);
 
   // Smooth pendulum sway, tilt, and forward rise on hover
   useFrame((_, delta) => {
@@ -199,7 +208,6 @@ function DirectionSign({
 
       {/* FRONT FACE HTML (visible when viewing from front) */}
       <Html
-        portal={portalRef as unknown as React.RefObject<HTMLElement>}
         transform
         position={[side === 'left' ? 0.08 : -0.08, 0, 0.18]}
         center
@@ -211,7 +219,6 @@ function DirectionSign({
 
       {/* BACK FACE HTML (rotated 180°, visible when camera orbits 360° to the back) */}
       <Html
-        portal={portalRef as unknown as React.RefObject<HTMLElement>}
         transform
         position={[side === 'left' ? 0.08 : -0.08, 0, -0.06]}
         rotation={[0, Math.PI, 0]}
@@ -325,21 +332,25 @@ function Scene() {
 }
 
 export default function Signpost3D() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={containerRef} className="signpost-scene">
-      <HtmlPortalContext.Provider value={containerRef}>
-        <Canvas
-          shadows
-          dpr={[1, 1.5]}
-          camera={{ position: [0, 0, 10], fov: 38 }}
-          gl={{ antialias: true, alpha: true }}
-        >
-          <color attach="background" args={['#f4ecdc']} />
-          <Scene />
-        </Canvas>
-      </HtmlPortalContext.Provider>
+    <div className="signpost-scene">
+      <Canvas
+        shadows={{ type: THREE.PCFShadowMap }}
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 10], fov: 38 }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: 'high-performance',
+        }}
+        onCreated={({ gl }) => {
+          gl.shadowMap.enabled = true;
+          gl.shadowMap.type = THREE.PCFShadowMap;
+        }}
+      >
+        <color attach="background" args={['#f4ecdc']} />
+        <Scene />
+      </Canvas>
     </div>
   );
 }
