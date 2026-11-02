@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import BannerCarousel from "@/components/hero/BannerCarousel";
 import SignpostNav from "@/components/hero/SignpostNav";
 
 export default function Home() {
@@ -32,8 +33,17 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="h-screen h-[100dvh] w-full overflow-hidden bg-[#f4ecdc] selection:bg-[#d97706]/20 selection:text-[#78350f]">
-      <SignpostNav key={mountKey} />
+    <main className="flex min-h-screen min-h-[100dvh] w-full flex-col overflow-x-hidden bg-[#f4ecdc] selection:bg-[#d97706]/20 selection:text-[#78350f]">
+      {/* Top Horizontal S3 Banner Carousel */}
+      <BannerCarousel />
+
+      {/* Pushed-down 3D Wooden Signpost Navigation Area */}
+      <section
+        aria-label="3D Crossroads Signpost Navigation"
+        className="relative w-full flex-1"
+      >
+        <SignpostNav key={mountKey} />
+      </section>
     </main>
   );
 }

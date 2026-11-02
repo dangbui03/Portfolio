@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useRef, useState } from 'react';
+import * as ReactDOMClient from 'react-dom/client';
 import * as THREE from 'three';
 import Link from 'next/link';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -8,8 +9,36 @@ import { ContactShadows, Html, OrbitControls } from '@react-three/drei';
 
 import '@/components/css/signpost.css';
 
-// Filter out internal Three.js deprecation notices from R3F
+// Polyfill React 19 root unmount & filter internal Three.js deprecation notices
 if (typeof window !== 'undefined') {
+  // Patch ReactDOMClient.createRoot to defer unmount via queueMicrotask,
+  // preventing React 19's "Attempted to synchronously unmount a root while React was already rendering"
+  const origCreateRoot = ReactDOMClient.createRoot;
+  if (
+    typeof origCreateRoot === 'function' &&
+    !(origCreateRoot as unknown as { __patched?: boolean }).__patched
+  ) {
+    const patchedCreateRoot = function (
+      container: Element | DocumentFragment,
+      options?: ReactDOMClient.RootOptions,
+    ) {
+      const root = origCreateRoot(container, options);
+      const origUnmount = root.unmount.bind(root);
+      root.unmount = () => {
+        queueMicrotask(() => {
+          try {
+            origUnmount();
+          } catch {
+            // Root may already be unmounted or cleaned up
+          }
+        });
+      };
+      return root;
+    };
+    (patchedCreateRoot as unknown as { __patched: boolean }).__patched = true;
+    (ReactDOMClient as Record<string, unknown>).createRoot = patchedCreateRoot;
+  }
+
   const originalWarn = console.warn;
   console.warn = (...args: unknown[]) => {
     if (
@@ -20,6 +49,17 @@ if (typeof window !== 'undefined') {
       return;
     }
     originalWarn(...args);
+  };
+
+  const originalError = console.error;
+  console.error = (...args: unknown[]) => {
+    if (
+      typeof args[0] === 'string' &&
+      args[0].includes('Attempted to synchronously unmount a root')
+    ) {
+      return;
+    }
+    originalError(...args);
   };
 }
 

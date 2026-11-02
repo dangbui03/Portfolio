@@ -40,6 +40,7 @@ This file serves as the permanent contextual memory for all AI agents working on
 | **360° Signpost & React 19 Fix** | Resolved React 19 `<Html>` synchronous root unmount warning via microtask deferred unmount, enabled full 360° OrbitControls rotation with double-sided backface rendering, aligned directional board layout, and created dedicated starter routes (`/about`, `/blog`, `/projects`, `/contact`). |
 | **Homepage Layout & Hover Physics Fix** | Erased bottom viewport padding on homepage (`h-screen overflow-hidden`), scaled signpost typography and 3D plank geometry, and enhanced `useFrame` pendulum sway and tactile lift on hover. |
 | **Browser Back Navigation & Console Warnings Fix** | Added `data-scroll-behavior="smooth"` attribute to `<html>`, configured `PCFShadowMap`, added popstate scroll-to-top and remounting for browser back navigation, and purged backup folder from git index. |
+| **S3 Banner Carousel & Home Layout Update** | Pushed `SignpostNav` below a new horizontal draggable `BannerCarousel` (`src/components/hero/BannerCarousel.tsx`) with Framer Motion drag/spring physics, tap bounce micro-interactions, decoupled S3 service/hook (`src/lib/s3-banners.ts`, `src/hooks/useBannerImages.ts`), and patched React 19 synchronous root unmount in `Signpost3D.tsx`. Pre-change states backed up in `backup/2026-11-02_162400` and `backup/2026-11-02_163400`. |
 
 ---
 
