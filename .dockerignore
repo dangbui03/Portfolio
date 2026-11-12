@@ -1,0 +1,17 @@
+node_modules
+dist
+.next
+backup
+.git
+.gitignore
+Dockerfile*
+docker-compose*.yml
+*.log
+.env
+.env.*
+.idea
+.vscode
+.DS_Store
+coverage
+test-results
+tmp
