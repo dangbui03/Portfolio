@@ -7,6 +7,7 @@ import {
   useMotionValue,
   useReducedMotion,
   animate,
+  type PanInfo,
 } from "framer-motion";
 import {
   ChevronLeft,
@@ -17,10 +18,15 @@ import {
 } from "lucide-react";
 import { useBannerImages } from "@/hooks/useBannerImages";
 import type { BannerItem } from "@/lib/s3-banners";
+import type { SignpostRoute } from "@/components/3D/Signpost3D";
 
-const CARD_GAP = 20;
+const CARD_GAP = 16;
 
-export default function BannerCarousel() {
+export interface BannerCarouselProps {
+  onNavigate?: (href: SignpostRoute) => void;
+}
+
+export default function BannerCarousel({ onNavigate }: BannerCarouselProps) {
   const { banners, isLoading, isMockData } = useBannerImages();
   const prefersReducedMotion = useReducedMotion();
 
@@ -30,7 +36,7 @@ export default function BannerCarousel() {
   const x = useMotionValue(0);
 
   const [maxDrag, setMaxDrag] = useState(0);
-  const [cardStep, setCardStep] = useState(380);
+  const [cardStep, setCardStep] = useState(340);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [bouncingCardId, setBouncingCardId] = useState<string | null>(null);
@@ -58,6 +64,8 @@ export default function BannerCarousel() {
     const currentX = x.get();
     if (currentX < -computedMax) {
       x.set(-computedMax);
+    } else if (currentX > 0) {
+      x.set(0);
     }
   }, [x]);
 
@@ -103,13 +111,31 @@ export default function BannerCarousel() {
       } else {
         animate(x, targetX, {
           type: "spring",
-          stiffness: 340,
+          stiffness: 320,
           damping: 32,
-          mass: 0.85,
+          mass: 0.8,
         });
       }
     },
     [banners.length, cardStep, maxDrag, prefersReducedMotion, x],
+  );
+
+  // Magnetic velocity-aware card snap on drag release
+  const handleDragEnd = useCallback(
+    (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      setIsDragging(false);
+      if (cardStep <= 0) return;
+
+      const projectedX = x.get() + info.velocity.x * 0.18;
+      const rawIndex = Math.round(Math.abs(projectedX) / cardStep);
+      const targetIndex =
+        projectedX > 0
+          ? 0
+          : Math.max(0, Math.min(banners.length - 1, rawIndex));
+
+      scrollToIndex(targetIndex);
+    },
+    [banners.length, cardStep, scrollToIndex, x],
   );
 
   const handleCardPointerDown = (e: React.PointerEvent) => {
@@ -117,7 +143,6 @@ export default function BannerCarousel() {
   };
 
   const handleCardTap = (banner: BannerItem, e: React.MouseEvent) => {
-    // Prevent tap action if user dragged more than 8px
     if (pointerStartRef.current) {
       const dx = Math.abs(e.clientX - pointerStartRef.current.x);
       const dy = Math.abs(e.clientY - pointerStartRef.current.y);
@@ -126,7 +151,6 @@ export default function BannerCarousel() {
       }
     }
 
-    // Trigger tactile bounce micro-interaction
     setBouncingCardId(banner.id);
     setSelectedBanner(banner);
 
@@ -152,26 +176,26 @@ export default function BannerCarousel() {
     <section
       aria-label="Featured S3 Banners Carousel"
       onKeyDown={handleKeyDown}
-      className="relative z-10 w-full border-b border-[#dccbb1] bg-gradient-to-b from-[#fdfbf7] via-[#f7f0e2] to-[#f4ecdc] pt-5 pb-6 shadow-[0_6px_24px_rgba(58,32,20,0.06)]"
+      className="relative z-10 hidden w-full shrink-0 border-b border-[#dccbb1] bg-gradient-to-b from-[#fdfbf7] via-[#f7f0e2] to-[#f4ecdc] pt-3 pb-3.5 shadow-[0_4px_20px_rgba(58,32,20,0.06)] md:block"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header Bar */}
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d97706]/30 bg-[#f59e0b]/15 px-3 py-1 text-xs font-semibold tracking-wide text-[#78350f]">
-              <Database className="h-3.5 w-3.5 text-[#b45309]" aria-hidden="true" />
+        {/* Compact Header Bar */}
+        <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d97706]/30 bg-[#f59e0b]/15 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-[#78350f]">
+              <Database className="h-3 w-3 text-[#b45309]" aria-hidden="true" />
               {isMockData ? "S3 Mock Feed Ready" : "AWS S3 Live Feed"}
             </span>
-            <h2 className="font-serif text-lg font-bold tracking-tight text-[#3a2014] sm:text-xl">
+            <h2 className="font-serif text-base font-bold tracking-tight text-[#3a2014] lg:text-lg">
               Crossroads Dispatch &amp; Highlights
             </h2>
           </div>
 
           {/* Drag Hint + Accessible Navigation Buttons */}
-          <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-1.5 text-xs font-medium text-[#785a4a] sm:inline-flex">
-              <GripHorizontal className="h-4 w-4 text-[#b45309]" aria-hidden="true" />
-              <span>Drag or swipe horizontally</span>
+          <div className="flex items-center gap-2.5">
+            <span className="hidden items-center gap-1.5 text-xs font-medium text-[#785a4a] lg:inline-flex">
+              <GripHorizontal className="h-3.5 w-3.5 text-[#b45309]" aria-hidden="true" />
+              <span>Drag to snap cards</span>
             </span>
 
             <div className="flex items-center gap-1.5">
@@ -180,18 +204,18 @@ export default function BannerCarousel() {
                 onClick={() => scrollToIndex(activeIndex - 1)}
                 disabled={activeIndex <= 0}
                 aria-label="Previous banner"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#dccbb1] bg-[#fdfbf7] text-[#3a2014] shadow-xs transition-colors hover:border-[#b45309] hover:bg-[#f7f2e7] focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#dccbb1] bg-[#fdfbf7] text-[#3a2014] shadow-xs transition-colors hover:border-[#b45309] hover:bg-[#f7f2e7] focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                <ChevronLeft className="h-4 w-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
                 onClick={() => scrollToIndex(activeIndex + 1)}
                 disabled={activeIndex >= banners.length - 1}
                 aria-label="Next banner"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#dccbb1] bg-[#fdfbf7] text-[#3a2014] shadow-xs transition-colors hover:border-[#b45309] hover:bg-[#f7f2e7] focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#dccbb1] bg-[#fdfbf7] text-[#3a2014] shadow-xs transition-colors hover:border-[#b45309] hover:bg-[#f7f2e7] focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -200,23 +224,17 @@ export default function BannerCarousel() {
         {/* Draggable Horizontal Viewport */}
         <div
           ref={viewportRef}
-          className="relative overflow-hidden rounded-2xl py-2"
+          className="relative overflow-hidden rounded-xl py-1"
         >
           <motion.div
             ref={trackRef}
             style={{ x }}
             drag="x"
             dragConstraints={{ left: -maxDrag, right: 0 }}
-            dragElastic={0.16}
-            dragTransition={{
-              bounceStiffness: 380,
-              bounceDamping: 30,
-              power: 0.25,
-              timeConstant: 220,
-            }}
+            dragElastic={0.12}
             onDragStart={() => setIsDragging(true)}
-            onDragEnd={() => setIsDragging(false)}
-            className={`flex gap-5 select-none ${
+            onDragEnd={handleDragEnd}
+            className={`flex gap-4 select-none ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
             }`}
           >
@@ -233,30 +251,30 @@ export default function BannerCarousel() {
                   onClick={(e) => handleCardTap(banner, e)}
                   animate={{
                     scale: isBouncing
-                      ? [1, 0.94, 1.035, 0.985, 1]
+                      ? [1, 0.95, 1.03, 0.99, 1]
                       : isDragging
-                        ? 0.968
+                        ? 0.975
                         : 1,
-                    opacity: isDragging ? 0.88 : 1,
-                    y: isDragging ? 2 : 0,
+                    opacity: isDragging ? 0.9 : 1,
+                    y: isDragging ? 1 : 0,
                   }}
                   whileHover={
                     !isDragging
-                      ? { y: -3, transition: { duration: 0.2 } }
+                      ? { y: -2, transition: { duration: 0.18 } }
                       : undefined
                   }
                   whileTap={{
-                    scale: 0.955,
+                    scale: 0.96,
                     transition: {
                       type: "spring",
                       stiffness: 520,
-                      damping: 22,
+                      damping: 24,
                     },
                   }}
                   transition={
                     isBouncing
                       ? {
-                          duration: 0.4,
+                          duration: 0.38,
                           ease: [0.22, 1, 0.36, 1],
                         }
                       : {
@@ -266,14 +284,14 @@ export default function BannerCarousel() {
                           mass: 0.75,
                         }
                   }
-                  className={`group relative w-[84vw] max-w-[380px] shrink-0 overflow-hidden rounded-2xl border bg-[#3a2014] text-[#fdfbf7] shadow-md transition-shadow sm:w-[350px] md:w-[380px] ${
+                  className={`group relative w-[320px] shrink-0 overflow-hidden rounded-xl border bg-[#3a2014] text-[#fdfbf7] shadow-sm transition-shadow lg:w-[350px] ${
                     isSelected
-                      ? "border-[#f59e0b] ring-2 ring-[#d97706]/50 shadow-xl"
-                      : "border-[#5c3d2e]/60 hover:shadow-lg"
+                      ? "border-[#f59e0b] ring-2 ring-[#d97706]/50 shadow-lg"
+                      : "border-[#5c3d2e]/60 hover:shadow-md"
                   }`}
                 >
                   {/* Banner Image from S3 / Local Mock */}
-                  <div className="relative h-44 w-full overflow-hidden sm:h-48">
+                  <div className="relative h-32 w-full overflow-hidden lg:h-36">
                     <img
                       src={banner.imageUrl}
                       alt={banner.alt}
@@ -287,19 +305,19 @@ export default function BannerCarousel() {
                     />
 
                     {/* Top Tag Pill & S3 Key Indicator */}
-                    <div className="absolute top-3 right-3 left-3 flex items-center justify-between gap-2">
-                      <span className="rounded-lg bg-[#27140b]/80 px-2.5 py-1 text-xs font-semibold text-[#fcd34d] backdrop-blur-xs">
+                    <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2">
+                      <span className="rounded-md bg-[#27140b]/80 px-2 py-0.5 text-[11px] font-semibold text-[#fcd34d] backdrop-blur-xs">
                         {banner.tag}
                       </span>
-                      <span className="truncate rounded-md bg-[#27140b]/70 px-2 py-0.5 font-mono text-[11px] text-[#e7ddc8]/90 backdrop-blur-xs">
+                      <span className="truncate rounded-md bg-[#27140b]/70 px-1.5 py-0.5 font-mono text-[10px] text-[#e7ddc8]/90 backdrop-blur-xs">
                         {banner.s3Key}
                       </span>
                     </div>
 
                     {/* Content Overlay */}
-                    <div className="absolute right-3.5 bottom-3 left-3.5 flex items-end justify-between gap-3">
+                    <div className="absolute right-3 bottom-2.5 left-3 flex items-end justify-between gap-2.5">
                       <div className="min-w-0">
-                        <h3 className="truncate font-serif text-lg font-bold text-[#fdfbf7] drop-shadow-xs">
+                        <h3 className="truncate font-serif text-base font-bold text-[#fdfbf7] drop-shadow-xs">
                           {banner.title}
                         </h3>
                         <p className="line-clamp-1 text-xs text-[#f6ebd8]/90">
@@ -310,9 +328,15 @@ export default function BannerCarousel() {
                       {banner.href && (
                         <Link
                           href={banner.href}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onNavigate) {
+                              e.preventDefault();
+                              onNavigate(banner.href as SignpostRoute);
+                            }
+                          }}
                           aria-label={`Open ${banner.title}`}
-                          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#d97706] text-[#fdfbf7] shadow-sm transition-transform hover:bg-[#b45309] active:scale-95"
+                          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#d97706] text-[#fdfbf7] shadow-sm transition-transform hover:bg-[#b45309] active:scale-95"
                         >
                           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
@@ -326,9 +350,9 @@ export default function BannerCarousel() {
         </div>
 
         {/* Footer: Pagination Dots & Active Tap Feedback */}
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+        <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2">
           <div
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1"
             role="tablist"
             aria-label="Banner slide indicators"
           >
@@ -342,13 +366,13 @@ export default function BannerCarousel() {
                   aria-selected={isActive}
                   aria-label={`Go to slide ${idx + 1}: ${item.title}`}
                   onClick={() => scrollToIndex(idx)}
-                  className="group inline-flex h-7 items-center justify-center px-1 focus-visible:outline-none"
+                  className="group inline-flex h-5 items-center justify-center px-1 focus-visible:outline-none"
                 >
                   <span
-                    className={`block h-2 rounded-full transition-all duration-300 ${
+                    className={`block h-1.5 rounded-full transition-all duration-300 ${
                       isActive
-                        ? "w-7 bg-[#b45309]"
-                        : "w-2 bg-[#c8b396] group-hover:bg-[#8c6748]"
+                        ? "w-6 bg-[#b45309]"
+                        : "w-1.5 bg-[#c8b396] group-hover:bg-[#8c6748]"
                     }`}
                   />
                 </button>
@@ -356,7 +380,7 @@ export default function BannerCarousel() {
             })}
           </div>
 
-          <div className="text-xs font-medium text-[#785a4a]" aria-live="polite">
+          <div className="text-[11px] font-medium text-[#785a4a]" aria-live="polite">
             {isLoading ? (
               <span>Syncing S3 bucket...</span>
             ) : selectedBanner ? (
