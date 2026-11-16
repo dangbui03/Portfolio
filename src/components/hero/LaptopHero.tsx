@@ -129,7 +129,7 @@ export default function LaptopHero({
       <div className="pointer-events-none absolute top-3 right-3 left-3 z-20 flex flex-wrap items-center justify-between gap-2 sm:top-5 sm:right-5 sm:left-5">
         <div className="pointer-events-auto flex items-center gap-2 rounded-full border border-[#cbd5e1] bg-white/90 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#334155] shadow-xs backdrop-blur-md">
           <RotateCw className="h-3.5 w-3.5 text-[#ea580c]" aria-hidden="true" />
-          <span>360° Orbit</span>
+          <span>360° Orbit · Scroll Zoom</span>
           <span className="hidden text-[#94a3b8] sm:inline">|</span>
           <span className="hidden text-[#64748b] sm:inline">{statusText}</span>
         </div>
@@ -139,10 +139,15 @@ export default function LaptopHero({
             type="button"
             onClick={() => setIsCustomizerOpen((v) => !v)}
             aria-expanded={isCustomizerOpen}
-            className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-[#cbd5e1] bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#0f172a] shadow-xs backdrop-blur-md transition-colors hover:border-[#64748b] hover:bg-white focus-visible:ring-2 focus-visible:ring-[#ea580c] focus-visible:outline-none"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#cbd5e1] bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#0f172a] shadow-xs backdrop-blur-md transition-colors hover:border-[#64748b] hover:bg-white focus-visible:ring-2 focus-visible:ring-[#ea580c] focus-visible:outline-none"
           >
             <Palette className="h-3.5 w-3.5 text-[#ea580c]" aria-hidden="true" />
             <span>{activeBrand.name}</span>
+            <span
+              aria-hidden="true"
+              className="h-3 w-3 rounded-full border border-[#94a3b8]"
+              style={{ background: activeColorway.swatch }}
+            />
           </button>
 
           <button
@@ -216,7 +221,7 @@ export default function LaptopHero({
                 <span>Factory Colorway</span>
                 <span className="text-[#0f172a] normal-case">{activeColorway.name}</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {activeBrand.colorways.map((cw) => {
                   const isActive = activeColorway.id === cw.id;
                   return (
@@ -409,7 +414,7 @@ export default function LaptopHero({
                         {OPTION_ICONS[option.href]}
                       </span>
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <span className="font-mono text-[10px] font-bold tracking-widest text-[#ea580c]">
                             {option.chapter}
                           </span>

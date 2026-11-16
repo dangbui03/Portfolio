@@ -36,20 +36,32 @@ export const LAPTOP_BRANDS: Record<LaptopBrandId, LaptopBrandConfig> = {
   apple: {
     id: 'apple',
     name: 'Macbook Pro',
-    tagline: 'M-series · Liquid Retina XDR',
-    bezelColor: '#050506',
+    tagline: 'M-series · Unibody Slab',
+    bezelColor: '#0c0d10',
     colorways: [
       {
         id: 'space-black',
         name: 'Space Black',
-        swatch: '#2e2f31',
-        shellColor: '#2e2f31',
-        deckColor: '#2b2c2e',
-        keyColor: '#0c0c0e',
-        logoColor: '#4a4b4f',
+        swatch: '#3c3f46',
+        shellColor: '#3c3f46',
+        deckColor: '#43474f',
+        keyColor: '#1f2229',
+        logoColor: '#e2e4e9',
         ledColor: '#f5f5f7',
-        metalness: 0.7,
-        roughness: 0.32,
+        metalness: 0.68,
+        roughness: 0.28,
+      },
+      {
+        id: 'space-gray',
+        name: 'Space Gray',
+        swatch: '#7c8087',
+        shellColor: '#7c8087',
+        deckColor: '#74787f',
+        keyColor: '#1d2026',
+        logoColor: '#f1f3f6',
+        ledColor: '#f5f5f7',
+        metalness: 0.74,
+        roughness: 0.26,
       },
       {
         id: 'silver',
@@ -57,10 +69,46 @@ export const LAPTOP_BRANDS: Record<LaptopBrandId, LaptopBrandConfig> = {
         swatch: '#e3e4e6',
         shellColor: '#e3e4e6',
         deckColor: '#dcdde0',
-        keyColor: '#0c0c0e',
-        logoColor: '#f8f9fb',
+        keyColor: '#1d2026',
+        logoColor: '#5c616b',
         ledColor: '#f5f5f7',
         metalness: 0.78,
+        roughness: 0.22,
+      },
+      {
+        id: 'midnight',
+        name: 'Midnight',
+        swatch: '#2f3b4e',
+        shellColor: '#2f3b4e',
+        deckColor: '#354257',
+        keyColor: '#1b222e',
+        logoColor: '#dce3ee',
+        ledColor: '#f5f5f7',
+        metalness: 0.66,
+        roughness: 0.28,
+      },
+      {
+        id: 'starlight',
+        name: 'Starlight',
+        swatch: '#e6dfd3',
+        shellColor: '#e6dfd3',
+        deckColor: '#ded7ca',
+        keyColor: '#1f2229',
+        logoColor: '#787168',
+        ledColor: '#f5f5f7',
+        metalness: 0.74,
+        roughness: 0.24,
+      },
+      {
+        id: 'sky-blue',
+        name: 'Sky Blue',
+        swatch: '#bfd4e6',
+        shellColor: '#bfd4e6',
+        deckColor: '#b5cbe0',
+        keyColor: '#1f2229',
+        logoColor: '#4b5c6e',
+        ledColor: '#f5f5f7',
+        metalness: 0.74,
         roughness: 0.24,
       },
     ],
@@ -68,98 +116,122 @@ export const LAPTOP_BRANDS: Record<LaptopBrandId, LaptopBrandConfig> = {
   thinkpad: {
     id: 'thinkpad',
     name: 'Thinkpad P1',
-    tagline: 'Gen 7 · Mobile Workstation',
-    bezelColor: '#08080a',
+    tagline: 'Gen 7 · Satin Workstation',
+    bezelColor: '#121418',
     colorways: [
       {
         id: 'black-weave',
-        name: 'Black (Carbon Weave)',
+        name: 'Carbon Satin Black',
         swatch:
-          'repeating-linear-gradient(45deg, #1c1c1e 0 3px, #2a2a2d 3px 6px)',
-        shellColor: '#1f1f21',
-        deckColor: '#1b1b1d',
-        keyColor: '#111113',
-        logoColor: '#d4d4d8',
+          'repeating-linear-gradient(45deg, #353840 0 3px, #454952 3px 6px)',
+        shellColor: '#373a42',
+        deckColor: '#3e424b',
+        keyColor: '#22252c',
+        logoColor: '#e4e4e7',
         ledColor: '#f4f4f5',
-        metalness: 0.12,
-        roughness: 0.7,
+        metalness: 0.46,
+        roughness: 0.34,
         weave: true,
       },
       {
-        id: 'black-soft',
-        name: 'Black (Soft-touch)',
-        swatch: '#232325',
-        shellColor: '#232325',
-        deckColor: '#1d1d1f',
-        keyColor: '#111113',
-        logoColor: '#d4d4d8',
+        id: 'black-satin',
+        name: 'Graphite Metallic',
+        swatch: '#464a54',
+        shellColor: '#464a54',
+        deckColor: '#4c515c',
+        keyColor: '#242830',
+        logoColor: '#f1f5f9',
         ledColor: '#f4f4f5',
-        metalness: 0.08,
-        roughness: 0.82,
+        metalness: 0.54,
+        roughness: 0.28,
+      },
+      {
+        id: 'storm-silver',
+        name: 'Storm Silver',
+        swatch: '#c4cad4',
+        shellColor: '#c4cad4',
+        deckColor: '#bcc3ce',
+        keyColor: '#232730',
+        logoColor: '#1f232b',
+        ledColor: '#f8fafc',
+        metalness: 0.74,
+        roughness: 0.24,
       },
     ],
   },
   rog: {
     id: 'rog',
     name: 'Asus Zephyrus',
-    tagline: 'G16 · Slash Lighting',
-    bezelColor: '#060607',
+    tagline: 'ROG · Light Blue LED & Slash',
+    bezelColor: '#0e1015',
     colorways: [
       {
         id: 'eclipse-gray',
         name: 'Eclipse Gray',
-        swatch: '#3b3e44',
-        shellColor: '#3b3e44',
-        deckColor: '#36393f',
-        keyColor: '#1f2125',
-        logoColor: '#ffffff',
-        ledColor: '#f8fafc',
-        metalness: 0.66,
-        roughness: 0.34,
+        swatch: '#464b55',
+        shellColor: '#464b55',
+        deckColor: '#4d535e',
+        keyColor: '#252932',
+        logoColor: '#7dd3fc',
+        ledColor: '#7dd3fc',
+        metalness: 0.64,
+        roughness: 0.3,
       },
       {
         id: 'platinum-white',
         name: 'Platinum White',
         swatch: '#e7e7e4',
         shellColor: '#e7e7e4',
-        deckColor: '#e1e1de',
+        deckColor: '#deded9',
         keyColor: '#ececea',
-        logoColor: '#ffffff',
-        ledColor: '#f8fafc',
+        logoColor: '#7dd3fc',
+        ledColor: '#7dd3fc',
         metalness: 0.62,
-        roughness: 0.3,
+        roughness: 0.28,
       },
     ],
   },
   hp: {
     id: 'hp',
-    name: 'HP ZBook',
-    tagline: 'Firefly · Mobile Workstation',
-    bezelColor: '#08090b',
+    name: 'HP OmniBook',
+    tagline: 'Ultra 14 · AI PC',
+    bezelColor: '#101318',
     colorways: [
       {
-        id: 'natural-silver',
-        name: 'Natural Silver',
-        swatch: '#c6cad0',
-        shellColor: '#c6cad0',
-        deckColor: '#bfc3c9',
-        keyColor: '#16181c',
-        logoColor: '#f4f6f8',
-        ledColor: '#f8fafc',
-        metalness: 0.74,
-        roughness: 0.3,
+        id: 'atmospheric-blue',
+        name: 'Atmospheric Blue',
+        swatch: '#2b425b',
+        shellColor: '#2b425b',
+        deckColor: '#334d68',
+        keyColor: '#1e2e40',
+        logoColor: '#e2e8f0',
+        ledColor: '#e0f2fe',
+        metalness: 0.68,
+        roughness: 0.28,
       },
       {
-        id: 'space-gray',
-        name: 'Space Gray',
-        swatch: '#4b4f56',
-        shellColor: '#4b4f56',
-        deckColor: '#45494f',
-        keyColor: '#141619',
-        logoColor: '#d9dce1',
+        id: 'glacier-silver',
+        name: 'Glacier Silver',
+        swatch: '#d6dbe2',
+        shellColor: '#d6dbe2',
+        deckColor: '#cdd3dc',
+        keyColor: '#262b34',
+        logoColor: '#181b22',
         ledColor: '#f8fafc',
-        metalness: 0.68,
-        roughness: 0.34,
+        metalness: 0.76,
+        roughness: 0.24,
+      },
+      {
+        id: 'meteor-black',
+        name: 'Meteor Black',
+        swatch: '#3d414a',
+        shellColor: '#3d414a',
+        deckColor: '#454a54',
+        keyColor: '#232730',
+        logoColor: '#1d4ed8',
+        ledColor: '#f8fafc',
+        metalness: 0.64,
+        roughness: 0.3,
       },
     ],
   },
@@ -209,7 +281,6 @@ function makeCanvasTexture(
 
 /**
  * Generates a crisp hardcoded desktop wallpaper texture on an offscreen canvas.
- * Serves as the immediate wallpaper before an external S3 wallpaper URL is connected.
  */
 function createHardcodedWallpaperTexture(): THREE.CanvasTexture {
   return makeCanvasTexture(1280, 800, (ctx) => {
@@ -312,7 +383,7 @@ function createHardcodedWallpaperTexture(): THREE.CanvasTexture {
 /** Subtle grayscale carbon-fiber twill weave, multiplied over the shell color. */
 function createCarbonWeaveTexture(): THREE.CanvasTexture {
   const texture = makeCanvasTexture(64, 64, (ctx) => {
-    ctx.fillStyle = '#d9d9d9';
+    ctx.fillStyle = '#e2e2e2';
     ctx.fillRect(0, 0, 64, 64);
     for (let y = 0; y < 64; y += 8) {
       for (let x = 0; x < 64; x += 8) {
@@ -320,9 +391,9 @@ function createCarbonWeaveTexture(): THREE.CanvasTexture {
         const grad = horizontal
           ? ctx.createLinearGradient(x, y, x, y + 8)
           : ctx.createLinearGradient(x, y, x + 8, y);
-        grad.addColorStop(0, '#bdbdbd');
+        grad.addColorStop(0, '#c8c8c8');
         grad.addColorStop(0.5, '#ffffff');
-        grad.addColorStop(1, '#bdbdbd');
+        grad.addColorStop(1, '#c8c8c8');
         ctx.fillStyle = grad;
         ctx.fillRect(x + 0.5, y + 0.5, 7, 7);
       }
@@ -337,7 +408,7 @@ function createCarbonWeaveTexture(): THREE.CanvasTexture {
 
 /**
  * Declarative responsive camera memoized by viewport tier so re-renders
- * (e.g. changing colorway) never reset the user's 360° OrbitControls angle.
+ * never reset the user's 360° OrbitControls angle.
  */
 const ResponsiveCameraRig = React.memo(function ResponsiveCameraRig() {
   const size = useThree((state) => state.size);
@@ -399,11 +470,14 @@ const TRACKPOINT_Z = -0.1;
 
 function buildKeyLayout(brand: LaptopBrandId): {
   keys: KeySpec[];
+  wasdKeys: KeySpec[];
   specialKey: KeySpec | null;
 } {
   const keys: KeySpec[] = [];
+  const wasdKeys: KeySpec[] = [];
   let specialKey: KeySpec | null = null;
   const isThinkPad = brand === 'thinkpad';
+  const isRog = brand === 'rog';
 
   KEY_ROWS.forEach((row, rIdx) => {
     let cursor = -KEY_ROW_WIDTH / 2;
@@ -423,6 +497,16 @@ function buildKeyLayout(brand: LaptopBrandId): {
         return;
       }
 
+      // Asus Zephyrus: separate W (row 2, col 2) and A, S, D (row 3, cols 1..3)
+      const isWasdKey =
+        isRog &&
+        ((rIdx === 2 && cIdx === 2) ||
+          (rIdx === 3 && (cIdx === 1 || cIdx === 2 || cIdx === 3)));
+      if (isWasdKey) {
+        wasdKeys.push(spec);
+        return;
+      }
+
       // ThinkPad: notch G, H and B keys to make room for the red TrackPoint
       if (isThinkPad && rIdx === 3 && (cIdx === 5 || cIdx === 6)) {
         spec.d -= 0.016;
@@ -437,7 +521,7 @@ function buildKeyLayout(brand: LaptopBrandId): {
     });
   });
 
-  return { keys, specialKey };
+  return { keys, wasdKeys, specialKey };
 }
 
 /**
@@ -455,7 +539,10 @@ function KeyboardDeck({
   const ledLevelRef = useRef(0);
   const wellLedMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const keyMatRef = useRef<THREE.MeshStandardMaterial>(null);
+  const wasdMatRef = useRef<THREE.MeshStandardMaterial>(null);
+  const trackpadLedMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const keysMeshRef = useRef<THREE.InstancedMesh>(null);
+  const wasdMeshRef = useRef<THREE.InstancedMesh>(null);
 
   const isMac = brand === 'apple';
   const isThinkPad = brand === 'thinkpad';
@@ -463,36 +550,67 @@ function KeyboardDeck({
   const isHp = brand === 'hp';
   const isLightKeys = colorway.id === 'platinum-white';
 
-  const { keys, specialKey } = useMemo(() => buildKeyLayout(brand), [brand]);
+  const { keys, wasdKeys, specialKey } = useMemo(() => buildKeyLayout(brand), [brand]);
 
   // Layout effect so instances are positioned before the first frame renders
   useLayoutEffect(() => {
-    const mesh = keysMeshRef.current;
-    if (!mesh) return;
     const dummy = new THREE.Object3D();
-    keys.forEach((k, idx) => {
-      dummy.position.set(k.x, 0.008, k.z);
-      dummy.scale.set(k.w, 0.014, k.d);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(idx, dummy.matrix);
-    });
-    mesh.instanceMatrix.needsUpdate = true;
-    mesh.computeBoundingSphere();
-  }, [keys]);
+    const mesh = keysMeshRef.current;
+    if (mesh) {
+      keys.forEach((k, idx) => {
+        dummy.position.set(k.x, 0.008, k.z);
+        dummy.scale.set(k.w, 0.014, k.d);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(idx, dummy.matrix);
+      });
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.computeBoundingSphere();
+    }
 
-  useFrame((_, delta) => {
+    const wasdMesh = wasdMeshRef.current;
+    if (wasdMesh && wasdKeys.length > 0) {
+      wasdKeys.forEach((k, idx) => {
+        dummy.position.set(k.x, 0.009, k.z);
+        dummy.scale.set(k.w, 0.015, k.d);
+        dummy.updateMatrix();
+        wasdMesh.setMatrixAt(idx, dummy.matrix);
+      });
+      wasdMesh.instanceMatrix.needsUpdate = true;
+      wasdMesh.computeBoundingSphere();
+    }
+  }, [keys, wasdKeys, colorway.id]);
+
+  useEffect(() => {
+    if (wellLedMatRef.current) wellLedMatRef.current.emissiveIntensity = 0;
+    if (keyMatRef.current) keyMatRef.current.emissiveIntensity = 0;
+    if (wasdMatRef.current) wasdMatRef.current.emissiveIntensity = 0;
+    if (trackpadLedMatRef.current) trackpadLedMatRef.current.emissiveIntensity = 0;
+  }, [brand, colorway.id]);
+
+  useFrame((state, delta) => {
     const dt = Math.min(delta, 0.05);
+    const t = state.clock.getElapsedTime();
     ledLevelRef.current = THREE.MathUtils.lerp(
       ledLevelRef.current,
       isKeyboardLit ? 1 : 0,
       1 - Math.exp(-10 * dt),
     );
     const lvl = ledLevelRef.current;
+
     if (wellLedMatRef.current) {
-      wellLedMatRef.current.emissiveIntensity = lvl * 0.7;
+      wellLedMatRef.current.emissiveIntensity = lvl * (isRog ? 1.15 : 0.78);
     }
     if (keyMatRef.current) {
-      keyMatRef.current.emissiveIntensity = lvl * (isLightKeys ? 0.08 : 0.24);
+      keyMatRef.current.emissiveIntensity =
+        lvl * (isRog ? 0.36 : isLightKeys ? 0.12 : 0.26);
+    }
+    if (wasdMatRef.current) {
+      const pulse = 0.88 + Math.sin(t * 2.8) * 0.12;
+      wasdMatRef.current.emissiveIntensity = Math.max(0.22, lvl * 1.1 * pulse);
+    }
+    if (trackpadLedMatRef.current) {
+      const pulse = 0.85 + Math.cos(t * 2.4) * 0.15;
+      trackpadLedMatRef.current.emissiveIntensity = Math.max(0.16, lvl * 1.05 * pulse);
     }
   });
 
@@ -501,8 +619,15 @@ function KeyboardDeck({
     : isThinkPad
       ? { w: 0.82, d: 0.4, z: 0.5 }
       : isRog
-        ? { w: 1.0, d: 0.52, z: 0.47 }
+        ? { w: 1.04, d: 0.53, z: 0.47 }
         : { w: 0.98, d: 0.5, z: 0.47 };
+
+  // Subtle contrast rim around trackpad so interior hardware is always visible
+  const trackpadRimColor = isRog
+    ? '#7dd3fc'
+    : isThinkPad
+      ? '#525866'
+      : '#64748b';
 
   return (
     <group position={[0, 0.046, 0.02]}>
@@ -511,14 +636,13 @@ function KeyboardDeck({
         <boxGeometry args={[KEY_ROW_WIDTH + 0.04, 0.01, 0.73]} />
         <meshStandardMaterial
           ref={wellLedMatRef}
-          color="#08090b"
-          roughness={0.75}
+          color="#101318"
+          roughness={0.7}
           emissive={colorway.ledColor}
-          emissiveIntensity={0}
         />
       </mesh>
 
-      {/* Instanced backlit keycaps */}
+      {/* Instanced backlit keycaps (keyed by brand only so color changes never reset matrices) */}
       <instancedMesh
         key={`keys-${brand}`}
         ref={keysMeshRef}
@@ -529,11 +653,30 @@ function KeyboardDeck({
         <meshStandardMaterial
           ref={keyMatRef}
           color={colorway.keyColor}
-          roughness={isThinkPad ? 0.7 : 0.5}
+          metalness={0.16}
+          roughness={isThinkPad ? 0.52 : 0.4}
           emissive={colorway.ledColor}
-          emissiveIntensity={0}
         />
       </instancedMesh>
+
+      {/* Asus Zephyrus: Distinct light-blue highlighted WASD keycaps */}
+      {isRog && wasdKeys.length > 0 && (
+        <instancedMesh
+          key={`wasd-${brand}`}
+          ref={wasdMeshRef}
+          args={[undefined, undefined, wasdKeys.length]}
+          castShadow
+        >
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial
+            ref={wasdMatRef}
+            color={isLightKeys ? '#7dd3fc' : '#bae6fd'}
+            metalness={0.22}
+            roughness={0.24}
+            emissive="#7dd3fc"
+          />
+        </instancedMesh>
+      )}
 
       {/* Macbook Touch ID key / ThinkPad fingerprint power button */}
       {specialKey && (
@@ -541,15 +684,15 @@ function KeyboardDeck({
           <mesh>
             <boxGeometry args={[specialKey.w, 0.014, specialKey.d]} />
             <meshStandardMaterial
-              color={isMac ? '#050506' : '#0b0b0d'}
+              color={colorway.keyColor}
               metalness={0.35}
-              roughness={0.18}
+              roughness={0.22}
             />
           </mesh>
           {isMac && (
             <mesh position={[0, 0.0075, 0]} rotation={[-Math.PI / 2, 0, 0]}>
               <ringGeometry args={[0.022, 0.026, 32]} />
-              <meshStandardMaterial color="#6b6d72" metalness={0.9} roughness={0.2} />
+              <meshStandardMaterial color="#94a3b8" metalness={0.9} roughness={0.2} />
             </mesh>
           )}
           {isThinkPad && (
@@ -558,7 +701,7 @@ function KeyboardDeck({
               <meshStandardMaterial
                 color="#ffffff"
                 emissive="#ffffff"
-                emissiveIntensity={isKeyboardLit ? 1.2 : 0.1}
+                emissiveIntensity={isKeyboardLit ? 1.2 : 0.2}
               />
             </mesh>
           )}
@@ -570,15 +713,15 @@ function KeyboardDeck({
         [-1.18, 1.18].map((sx) => (
           <mesh key={sx} position={[sx, 0.001, -0.21]}>
             <boxGeometry args={[0.12, 0.004, 0.7]} />
-            <meshStandardMaterial color="#111214" roughness={0.85} />
+            <meshStandardMaterial color="#1f232b" roughness={0.75} />
           </mesh>
         ))}
 
-      {/* HP ZBook: full-width speaker grille above the keyboard */}
+      {/* HP OmniBook: full-width speaker grille above the keyboard */}
       {isHp && (
         <mesh position={[0, 0.001, -0.63]}>
           <boxGeometry args={[KEY_ROW_WIDTH, 0.004, 0.06]} />
-          <meshStandardMaterial color="#1a1c20" roughness={0.85} />
+          <meshStandardMaterial color="#1e2430" roughness={0.75} />
         </mesh>
       )}
 
@@ -587,45 +730,92 @@ function KeyboardDeck({
         <>
           <mesh position={[TRACKPOINT_X, 0.014, TRACKPOINT_Z]}>
             <cylinderGeometry args={[0.02, 0.022, 0.02, 20]} />
-            <meshStandardMaterial color="#d0021b" roughness={0.85} />
+            <meshStandardMaterial
+              color="#e11d48"
+              emissive="#e11d48"
+              emissiveIntensity={0.25}
+              roughness={0.5}
+            />
           </mesh>
 
           <group position={[0, 0.004, 0.205]}>
             {[-0.27, 0, 0.27].map((bx) => (
               <mesh key={bx} position={[bx, 0, 0]}>
                 <boxGeometry args={[bx === 0 ? 0.22 : 0.3, 0.01, 0.065]} />
-                <meshStandardMaterial color="#141416" roughness={0.6} />
+                <meshStandardMaterial color="#252830" roughness={0.5} />
               </mesh>
             ))}
             {[-0.115, 0.115].map((rx) => (
               <mesh key={rx} position={[rx, 0.0055, 0]}>
-                <boxGeometry args={[0.006, 0.002, 0.06]} />
-                <meshStandardMaterial color="#d0021b" roughness={0.5} />
+                <boxGeometry args={[0.008, 0.002, 0.06]} />
+                <meshStandardMaterial color="#e11d48" roughness={0.4} />
               </mesh>
             ))}
           </group>
         </>
       )}
 
-      {/* Touchpad with brand-accurate proportions */}
-      <mesh position={[0, 0.001, touchpad.z]} receiveShadow>
-        <boxGeometry args={[touchpad.w, 0.006, touchpad.d]} />
-        <meshStandardMaterial
-          color={isThinkPad ? '#18181a' : colorway.deckColor}
-          metalness={isThinkPad ? 0.1 : colorway.metalness * 0.85}
-          roughness={isThinkPad ? 0.55 : 0.2}
-        />
-      </mesh>
+      {/* Touchpad with chamfered/LED rim so it stands out on all colorways */}
+      <group position={[0, 0.001, touchpad.z]}>
+        {/* Outer rim / Asus Zephyrus glowing light-blue LED trackpad border */}
+        <mesh position={[0, -0.0005, 0]}>
+          <boxGeometry args={[touchpad.w + 0.022, 0.006, touchpad.d + 0.022]} />
+          {isRog ? (
+            <meshStandardMaterial
+              ref={trackpadLedMatRef}
+              color="#7dd3fc"
+              emissive="#7dd3fc"
+              roughness={0.2}
+            />
+          ) : (
+            <meshStandardMaterial
+              color={trackpadRimColor}
+              metalness={0.6}
+              roughness={0.3}
+            />
+          )}
+        </mesh>
+
+        {/* Main touchpad glass surface */}
+        <mesh position={[0, 0.0005, 0]} receiveShadow>
+          <boxGeometry args={[touchpad.w, 0.006, touchpad.d]} />
+          <meshStandardMaterial
+            color={isThinkPad ? '#2c3039' : colorway.deckColor}
+            metalness={isThinkPad ? 0.32 : colorway.metalness * 0.85}
+            roughness={isThinkPad ? 0.36 : 0.2}
+          />
+        </mesh>
+
+        {/* Asus Zephyrus: subtle glowing light-blue accent lines inside trackpad */}
+        {isRog && (
+          <>
+            <mesh position={[0, 0.004, -touchpad.d / 2 + 0.025]}>
+              <boxGeometry args={[touchpad.w * 0.55, 0.001, 0.008]} />
+              <meshStandardMaterial
+                color="#bae6fd"
+                emissive="#7dd3fc"
+                emissiveIntensity={isKeyboardLit ? 1.15 : 0.22}
+              />
+            </mesh>
+            <mesh position={[0, 0.004, touchpad.d / 2 - 0.025]}>
+              <boxGeometry args={[touchpad.w * 0.55, 0.001, 0.008]} />
+              <meshStandardMaterial
+                color="#bae6fd"
+                emissive="#7dd3fc"
+                emissiveIntensity={isKeyboardLit ? 1.15 : 0.22}
+              />
+            </mesh>
+          </>
+        )}
+      </group>
     </group>
   );
 }
 
 /* ================================================================
-   LID BRAND EMBLEMS (real-market placement, oriented for a viewer
-   standing behind the open lid)
+   LID BRAND EMBLEMS (real-market placement)
    ================================================================ */
 
-// Plane lying on the lid outer surface, texture "up" pointing to the lid's top edge (+Z)
 const LID_DECAL_ROTATION: [number, number, number] = [-Math.PI / 2, 0, Math.PI];
 const LID_SURFACE_Y = 0.0615;
 
@@ -635,7 +825,6 @@ function createThinkPadLidTextures(logoColor: string) {
   const dotY = baseline - 66;
   const x0 = 24;
 
-  // Measure once so the glow mask lines up with the printed i-dot
   const measureCtx = document.createElement('canvas').getContext('2d');
   let wTh = 150;
   let wI = 24;
@@ -670,7 +859,7 @@ function createThinkPadLidTextures(logoColor: string) {
 
   const lenovoMap = makeCanvasTexture(256, 64, (ctx) => {
     ctx.font = '600 40px "Helvetica Neue", Arial, sans-serif';
-    ctx.fillStyle = '#8e9096';
+    ctx.fillStyle = logoColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('Lenovo', 128, 34);
@@ -701,32 +890,48 @@ function ThinkPadLidBadges({
 
   return (
     <>
-      {/* ThinkPad wordmark, bottom-right corner near the hinge (viewer's right = -X) */}
-      <mesh position={[-0.92, LID_SURFACE_Y, 0.2]} rotation={LID_DECAL_ROTATION}>
-        <planeGeometry args={[0.44, 0.11]} />
-        <meshStandardMaterial
-          map={logoMap}
-          emissive="#ff1a3c"
-          emissiveMap={dotMap}
-          emissiveIntensity={isPoweredOn ? 1.6 : 0.15}
-          transparent
-          alphaTest={0.3}
-          metalness={0.4}
-          roughness={0.4}
-          polygonOffset
-          polygonOffsetFactor={-2}
-        />
-      </mesh>
+      {/* ThinkPad wordmark at top-left corner, tilted 30°, with red status LED dot underneath */}
+      <group
+        position={[0.88, LID_SURFACE_Y, 1.42]}
+        rotation={[0, -Math.PI / 6, 0]}
+      >
+        <mesh rotation={LID_DECAL_ROTATION}>
+          <planeGeometry args={[0.44, 0.11]} />
+          <meshStandardMaterial
+            map={logoMap}
+            emissive="#ff1a3c"
+            emissiveMap={dotMap}
+            emissiveIntensity={isPoweredOn ? 1.8 : 0.2}
+            transparent
+            alphaTest={0.3}
+            metalness={0.4}
+            roughness={0.35}
+            polygonOffset
+            polygonOffsetFactor={-2}
+          />
+        </mesh>
 
-      {/* Lenovo tag, top-left corner */}
-      <mesh position={[1.0, LID_SURFACE_Y, 1.5]} rotation={LID_DECAL_ROTATION}>
+        {/* Dedicated red power indicator dot directly below the ThinkPad logo */}
+        <mesh position={[0, 0.003, -0.068]}>
+          <sphereGeometry args={[0.015, 16, 16]} />
+          <meshStandardMaterial
+            color={isPoweredOn ? '#ff1a3c' : '#4c0519'}
+            emissive="#ff1a3c"
+            emissiveIntensity={isPoweredOn ? 2.4 : 0.08}
+            roughness={0.25}
+          />
+        </mesh>
+      </group>
+
+      {/* Lenovo tag at opposite bottom-right corner */}
+      <mesh position={[-0.96, LID_SURFACE_Y, 0.22]} rotation={LID_DECAL_ROTATION}>
         <planeGeometry args={[0.2, 0.05]} />
         <meshStandardMaterial
           map={lenovoMap}
           transparent
           alphaTest={0.3}
-          metalness={0.6}
-          roughness={0.3}
+          metalness={0.5}
+          roughness={0.35}
           polygonOffset
           polygonOffsetFactor={-2}
         />
@@ -735,49 +940,64 @@ function ThinkPadLidBadges({
   );
 }
 
-function HpLidBadge({ colorway }: { colorway: LaptopColorway }) {
-  const hpMap = useMemo(
-    () =>
-      makeCanvasTexture(256, 256, (ctx) => {
-        ctx.fillStyle = colorway.logoColor;
-        ctx.beginPath();
-        ctx.arc(128, 128, 120, 0, Math.PI * 2);
-        ctx.fill();
-        // Cut the italic "hp" letters out of the chrome disc
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.font = 'italic 900 150px Arial, Helvetica, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('hp', 124, 120);
-        ctx.globalCompositeOperation = 'source-over';
-      }),
-    [colorway.logoColor],
-  );
+/**
+ * HP OmniBook 4-slash minimalist logo combining Black, Silver, and Deep Blue.
+ */
+function HpOmniBookLidLogo({ colorway }: { colorway: LaptopColorway }) {
+  const isSilverShell = colorway.id === 'glacier-silver';
+  const isBlueShell = colorway.id === 'atmospheric-blue';
 
-  useEffect(() => {
-    return () => {
-      hpMap.dispose();
-    };
-  }, [hpMap]);
+  // Combine Black (#181b22), Silver (#f1f5f9) and Deep Blue (#1d4ed8) across the 4 strokes & medallion
+  const outerSlashColor = isSilverShell
+    ? '#181b22' // Black chrome on silver shell
+    : '#f1f5f9'; // Silver chrome on dark/blue shells
+  const innerSlashColor = isBlueShell
+    ? '#93c5fd' // Ice-sapphire blue on blue shell
+    : '#1d4ed8'; // Deep sapphire blue on silver/black shells
+  const plateColor = isSilverShell ? '#1e293b' : '#111827';
 
   return (
-    <mesh position={[0, LID_SURFACE_Y, 0.86]} rotation={LID_DECAL_ROTATION}>
-      <planeGeometry args={[0.3, 0.3]} />
-      <meshStandardMaterial
-        map={hpMap}
-        transparent
-        alphaTest={0.3}
-        metalness={0.92}
-        roughness={0.14}
-        polygonOffset
-        polygonOffsetFactor={-2}
-      />
-    </mesh>
+    <group position={[0, 0.06, 0.86]}>
+      {/* Subtle deep-blue & black recessed medallion base */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.001, 0]}>
+        <ringGeometry args={[0.135, 0.16, 36]} />
+        <meshStandardMaterial color="#1d4ed8" metalness={0.65} roughness={0.25} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.0015, 0]}>
+        <circleGeometry args={[0.136, 36]} />
+        <meshStandardMaterial color={plateColor} metalness={0.45} roughness={0.35} />
+      </mesh>
+
+      {/* Iconic HP 4-slash strokes (////) in Silver, Deep Blue, and Black */}
+      <group rotation={[0, 0.34, 0]} position={[0, 0.0025, 0]}>
+        <mesh position={[-0.063, 0, 0.016]}>
+          <boxGeometry args={[0.022, 0.005, 0.145]} />
+          <meshStandardMaterial color={outerSlashColor} metalness={0.6} roughness={0.18} />
+        </mesh>
+        <mesh position={[-0.021, 0, -0.014]}>
+          <boxGeometry args={[0.022, 0.005, 0.19]} />
+          <meshStandardMaterial color={innerSlashColor} metalness={0.55} roughness={0.2} />
+        </mesh>
+        <mesh position={[0.021, 0, 0.014]}>
+          <boxGeometry args={[0.022, 0.005, 0.19]} />
+          <meshStandardMaterial color={outerSlashColor} metalness={0.6} roughness={0.18} />
+        </mesh>
+        <mesh position={[0.063, 0, -0.016]}>
+          <boxGeometry args={[0.022, 0.005, 0.145]} />
+          <meshStandardMaterial color={innerSlashColor} metalness={0.55} roughness={0.2} />
+        </mesh>
+      </group>
+    </group>
   );
 }
 
-function AppleLidLogo({ colorway }: { colorway: LaptopColorway }) {
-  // Bitten-apple silhouette; shape +Y maps to lid top edge (+Z), bite on viewer's right (-X)
+function AppleLidLogo({
+  colorway,
+  yOffset = 0.0595,
+}: {
+  colorway: LaptopColorway;
+  yOffset?: number;
+}) {
   const appleBodyGeometry = useMemo(() => {
     const s = new THREE.Shape();
     s.moveTo(0, -0.105);
@@ -801,23 +1021,21 @@ function AppleLidLogo({ colorway }: { colorway: LaptopColorway }) {
     };
   }, [appleBodyGeometry]);
 
-  const isSpaceBlack = colorway.id === 'space-black';
-
   return (
-    <group position={[0, 0.0595, 0.86]}>
+    <group position={[0, yOffset, 0.86]}>
       <mesh geometry={appleBodyGeometry}>
         <meshStandardMaterial
           color={colorway.logoColor}
-          metalness={1}
-          roughness={isSpaceBlack ? 0.22 : 0.06}
+          metalness={0.35}
+          roughness={0.22}
         />
       </mesh>
       <mesh position={[-0.015, 0.002, 0.135]} rotation={[-Math.PI / 2, 0, 0.55]}>
         <capsuleGeometry args={[0.016, 0.038, 4, 8]} />
         <meshStandardMaterial
           color={colorway.logoColor}
-          metalness={1}
-          roughness={isSpaceBlack ? 0.22 : 0.06}
+          metalness={0.35}
+          roughness={0.22}
         />
       </mesh>
     </group>
@@ -838,21 +1056,35 @@ function ZephyrusSlash({
   );
 
   return (
-    <group position={[0, 0.0605, 0.86]} rotation={[0, 0.52, 0]}>
-      <mesh>
-        <boxGeometry args={[1.66, 0.002, 0.056]} />
-        <meshStandardMaterial color={channelColor} roughness={0.45} metalness={0.4} />
-      </mesh>
-      {slashOffsets.map((sx) => (
-        <mesh key={sx} position={[sx, 0.002, 0]}>
-          <boxGeometry args={[0.1, 0.002, 0.022]} />
-          <meshStandardMaterial
-            color="#f1f5f9"
-            emissive={colorway.logoColor}
-            emissiveIntensity={isPoweredOn ? 1.5 : 0.12}
-          />
+    <group position={[0, 0.0605, 0.86]}>
+      <group rotation={[0, 0.52, 0]}>
+        <mesh>
+          <boxGeometry args={[1.66, 0.002, 0.056]} />
+          <meshStandardMaterial color={channelColor} roughness={0.45} metalness={0.4} />
         </mesh>
-      ))}
+        {slashOffsets.map((sx) => (
+          <mesh key={sx} position={[sx, 0.002, 0]}>
+            <boxGeometry args={[0.1, 0.0025, 0.024]} />
+            <meshStandardMaterial
+              color="#e0f2fe"
+              emissive="#7dd3fc"
+              emissiveIntensity={isPoweredOn ? 1.5 : 0.28}
+            />
+          </mesh>
+        ))}
+      </group>
+
+      {/* ROG corner light-blue badge */}
+      <mesh position={[-0.96, 0.002, 0.58]} rotation={[0, Math.PI / 4, 0]}>
+        <boxGeometry args={[0.11, 0.005, 0.11]} />
+        <meshStandardMaterial
+          color="#bae6fd"
+          emissive="#7dd3fc"
+          emissiveIntensity={isPoweredOn ? 1.2 : 0.32}
+          metalness={0.6}
+          roughness={0.25}
+        />
+      </mesh>
     </group>
   );
 }
@@ -1016,21 +1248,27 @@ function LaptopModel({
 
   const isPoweredOn = isLidOpen && isScreenOn;
 
-  // Real chassis proportions: ThinkPad boxy & thick, MacBook soft rounded unibody
+  // Real chassis proportions: MacBook closes into a flush monolithic unibody slab
   const baseThickness = isThinkPad ? 0.11 : isMac ? 0.084 : 0.09;
-  const chassisRadius = isThinkPad ? 0.012 : isMac ? 0.04 : isRog ? 0.026 : 0.022;
-  const lidRadius = isThinkPad ? 0.012 : isMac ? 0.026 : 0.02;
+  const chassisRadius = isThinkPad ? 0.014 : isMac ? 0.036 : isRog ? 0.024 : 0.022;
+  const lidThickness = isMac ? 0.048 : 0.056;
+  const lidRadius = isThinkPad ? 0.014 : isMac ? 0.024 : 0.02;
+  const lidWidth = isMac ? 2.62 : 2.6;
+  const lidDepth = isMac ? 1.75 : 1.72;
+  const lidCenterY = isMac ? 0.028 : 0.032;
+  const lidCenterZ = isMac ? 0.865 : 0.86;
+  const hingeY = isMac ? 0.042 : 0.048;
+  const hingeZ = isMac ? -0.865 : -0.84;
+
   const shellMap = colorway.weave ? carbonWeave : null;
 
-  // MacBook has thinner bezels → larger panel with a camera notch
   const screen = isMac
     ? { w: 2.44, h: 1.56, z: 0.855 }
     : { w: 2.32, h: 1.45, z: 0.84 };
 
-  const hingeColor = isMac || isHp ? colorway.deckColor : '#141416';
+  const hingeColor = isHp ? colorway.deckColor : '#242730';
 
   return (
-    /* Scaled down centrally so generous margin remains on all sides (position.y driven by useFrame) */
     <group ref={laptopRootRef} scale={0.76}>
       <group position={[0, -0.22, 0]}>
         {/* ============================================================
@@ -1062,24 +1300,44 @@ function LaptopModel({
         {isMac && (
           <mesh position={[0, baseThickness / 2 - 0.004, 0.87]}>
             <boxGeometry args={[0.4, 0.014, 0.03]} />
-            <meshStandardMaterial color="#0d0d0f" roughness={0.7} />
+            <meshStandardMaterial color="#181a20" roughness={0.6} />
           </mesh>
         )}
 
-        {/* Zephyrus rear exhaust vents */}
+        {/* Asus Zephyrus: Front & side light-blue LED bars + rear exhaust vents */}
         {isRog && (
-          <mesh position={[0, 0.004, -0.882]}>
-            <boxGeometry args={[2.0, 0.03, 0.012]} />
-            <meshStandardMaterial color="#0a0b0d" roughness={0.8} />
-          </mesh>
+          <>
+            <mesh position={[0, -0.024, 0.881]}>
+              <boxGeometry args={[1.95, 0.014, 0.012]} />
+              <meshStandardMaterial
+                color="#bae6fd"
+                emissive="#7dd3fc"
+                emissiveIntensity={isPoweredOn ? 1.4 : 0.35}
+              />
+            </mesh>
+            {[-1.311, 1.311].map((sx) => (
+              <mesh key={sx} position={[sx, -0.024, 0.45]}>
+                <boxGeometry args={[0.01, 0.012, 0.55]} />
+                <meshStandardMaterial
+                  color="#bae6fd"
+                  emissive="#7dd3fc"
+                  emissiveIntensity={isPoweredOn ? 1.25 : 0.3}
+                />
+              </mesh>
+            ))}
+            <mesh position={[0, 0.004, -0.882]}>
+              <boxGeometry args={[2.0, 0.03, 0.012]} />
+              <meshStandardMaterial color="#14161c" roughness={0.75} />
+            </mesh>
+          </>
         )}
 
-        {/* ThinkPad / ZBook side ports hint */}
+        {/* ThinkPad / OmniBook side ports hint */}
         {(isThinkPad || isHp) &&
           [-1.312, 1.312].map((px) => (
             <mesh key={px} position={[px, 0, -0.3]}>
               <boxGeometry args={[0.006, 0.026, 0.42]} />
-              <meshStandardMaterial color="#0a0a0c" roughness={0.8} />
+              <meshStandardMaterial color="#14161c" roughness={0.75} />
             </mesh>
           ))}
 
@@ -1092,38 +1350,48 @@ function LaptopModel({
         ].map(([fx, fz]) => (
           <mesh key={`${fx}-${fz}`} position={[fx, -baseThickness / 2 - 0.004, fz]}>
             <cylinderGeometry args={[0.055, 0.055, 0.012, 16]} />
-            <meshStandardMaterial color="#111111" roughness={0.9} />
+            <meshStandardMaterial color="#18181b" roughness={0.9} />
           </mesh>
         ))}
 
         <KeyboardDeck brand={brand} colorway={colorway} isKeyboardLit={isPoweredOn} />
 
-        {/* Hinge barrel */}
-        <mesh position={[0, 0.044, -0.84]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.036, 0.036, isThinkPad ? 2.2 : 1.92, 20]} />
-          <meshStandardMaterial
-            color={hingeColor}
-            metalness={isMac || isHp ? colorway.metalness : 0.4}
-            roughness={isMac || isHp ? colorway.roughness : 0.5}
-          />
-        </mesh>
+        {/* Hinge: MacBook uses a recessed internal clutch (flush when closed); others use a rear barrel */}
+        {isMac ? (
+          <mesh position={[0, 0.022, -0.78]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.016, 0.016, 1.75, 16]} />
+            <meshStandardMaterial color="#1f2229" roughness={0.5} metalness={0.5} />
+          </mesh>
+        ) : (
+          <mesh position={[0, 0.044, -0.84]} rotation={[0, 0, Math.PI / 2]} castShadow>
+            <cylinderGeometry args={[0.034, 0.034, isThinkPad ? 2.16 : 1.9, 20]} />
+            <meshStandardMaterial
+              color={hingeColor}
+              metalness={isHp ? colorway.metalness : 0.45}
+              roughness={isHp ? colorway.roughness : 0.42}
+            />
+          </mesh>
+        )}
 
         {/* Screen bounce glow */}
         {isPoweredOn && (
-          <pointLight position={[0, 0.65, 0.1]} intensity={1.55} distance={3.2} color="#93c5fd" />
+          <pointLight
+            position={[0, 0.65, 0.1]}
+            intensity={1.65}
+            distance={3.4}
+            color={isRog ? '#38bdf8' : '#93c5fd'}
+          />
         )}
 
         {/* ============================================================
             HINGE PIVOT & DISPLAY LID (0 rad = closed, -1.86 rad = open)
-            Omit JSX rotation prop so state updates never snap the lid back to 0.
            ============================================================ */}
-        <group ref={hingeRef} position={[0, 0.048, -0.84]}>
-          {/* Outer lid shell (bottom at y = +0.004 to prevent Z-fighting) */}
+        <group ref={hingeRef} position={[0, hingeY, hingeZ]}>
           <RoundedBox
-            args={[2.6, 0.056, 1.72]}
+            args={[lidWidth, lidThickness, lidDepth]}
             radius={lidRadius}
             smoothness={4}
-            position={[0, 0.032, 0.86]}
+            position={[0, lidCenterY, lidCenterZ]}
             castShadow
             receiveShadow
             onPointerOver={(e) => {
@@ -1148,22 +1416,22 @@ function LaptopModel({
           </RoundedBox>
 
           {/* Brand emblem on the outer lid */}
-          {isMac && <AppleLidLogo colorway={colorway} />}
+          {isMac && <AppleLidLogo colorway={colorway} yOffset={0.0525} />}
           {isThinkPad && <ThinkPadLidBadges colorway={colorway} isPoweredOn={isPoweredOn} />}
           {isRog && <ZephyrusSlash colorway={colorway} isPoweredOn={isPoweredOn} />}
-          {isHp && <HpLidBadge colorway={colorway} />}
+          {isHp && <HpOmniBookLidLogo colorway={colorway} />}
 
           {/* Inner screen bezel */}
-          <mesh position={[0, -0.002, 0.86]} rotation={[Math.PI / 2, 0, 0]}>
+          <mesh position={[0, -0.002, lidCenterZ]} rotation={[Math.PI / 2, 0, 0]}>
             <planeGeometry args={[2.5, 1.64]} />
-            <meshStandardMaterial color={brandConfig.bezelColor} roughness={0.4} />
+            <meshStandardMaterial color={brandConfig.bezelColor} roughness={0.38} />
           </mesh>
 
           {/* MacBook camera notch */}
           {isMac && (
             <mesh position={[0, -0.0095, 1.615]} rotation={[Math.PI / 2, 0, 0]}>
               <planeGeometry args={[0.22, 0.045]} />
-              <meshStandardMaterial color="#020203" roughness={0.5} />
+              <meshStandardMaterial color="#050608" roughness={0.5} />
             </mesh>
           )}
 
@@ -1174,13 +1442,13 @@ function LaptopModel({
           >
             <circleGeometry args={[0.014, 16]} />
             <meshStandardMaterial
-              color={isPoweredOn ? '#34d399' : '#1e293b'}
+              color={isPoweredOn ? '#34d399' : '#334155'}
               emissive={isPoweredOn ? '#10b981' : '#000000'}
               emissiveIntensity={0.8}
             />
           </mesh>
 
-          {/* Active display panel (map always bound to avoid shader recompile blink) */}
+          {/* Active display panel */}
           <mesh
             position={[0, -0.008, screen.z]}
             rotation={[Math.PI / 2, 0, 0]}
@@ -1241,19 +1509,22 @@ export default function Laptop3D(props: Laptop3DProps) {
       >
         <ResponsiveCameraRig />
 
-        <ambientLight intensity={1.15} />
+        {/* Brighter studio lighting so dark laptop interiors & keycaps are clearly visible */}
+        <ambientLight intensity={1.35} />
+        <hemisphereLight args={['#ffffff', '#64748b', 0.9]} />
 
         <directionalLight
           position={[4, 7, 5]}
-          intensity={2.2}
+          intensity={2.4}
           castShadow
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
         />
 
-        <directionalLight position={[-4, 4, -3]} intensity={1.1} color="#e2e8f0" />
+        <directionalLight position={[-4, 5, -3]} intensity={1.35} color="#f1f5f9" />
+        <directionalLight position={[0, 6, 3.5]} intensity={1.1} color="#ffffff" />
 
-        <pointLight position={[0, 3.2, 2.5]} intensity={10} distance={12} color="#ffffff" />
+        <pointLight position={[0, 3.2, 2.5]} intensity={11} distance={12} color="#ffffff" />
 
         <LaptopModel {...props} />
 
@@ -1266,10 +1537,12 @@ export default function Laptop3D(props: Laptop3DProps) {
           color="#0f172a"
         />
 
-        {/* Full 360-degree horizontal rotation + smooth vertical inspection */}
         <OrbitControls
           enablePan={false}
-          enableZoom={false}
+          enableZoom={true}
+          zoomSpeed={0.85}
+          minDistance={2.6}
+          maxDistance={11}
           enableDamping={true}
           dampingFactor={0.07}
           rotateSpeed={0.85}
