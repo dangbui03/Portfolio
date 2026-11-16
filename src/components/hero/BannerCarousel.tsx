@@ -18,12 +18,12 @@ import {
 } from "lucide-react";
 import { useBannerImages } from "@/hooks/useBannerImages";
 import type { BannerItem } from "@/lib/s3-banners";
-import type { SignpostRoute } from "@/components/3D/Signpost3D";
+import type { PortfolioRoute } from "@/lib/routes";
 
 const CARD_GAP = 16;
 
 export interface BannerCarouselProps {
-  onNavigate?: (href: SignpostRoute) => void;
+  onNavigate?: (href: PortfolioRoute) => void;
 }
 
 export default function BannerCarousel({ onNavigate }: BannerCarouselProps) {
@@ -332,7 +332,7 @@ export default function BannerCarousel({ onNavigate }: BannerCarouselProps) {
                             e.stopPropagation();
                             if (onNavigate) {
                               e.preventDefault();
-                              onNavigate(banner.href as SignpostRoute);
+                              onNavigate(banner.href as PortfolioRoute);
                             }
                           }}
                           aria-label={`Open ${banner.title}`}

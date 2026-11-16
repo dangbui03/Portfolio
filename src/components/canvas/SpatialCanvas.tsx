@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Compass, ArrowLeft, Sparkles, BookOpen, Layers, Mail } from "lucide-react";
-import BannerCarousel from "@/components/hero/BannerCarousel";
-import SignpostNav from "@/components/hero/SignpostNav";
-import type { SignpostRoute } from "@/components/3D/Signpost3D";
+import LaptopHero from "@/components/hero/LaptopHero";
+import type { PortfolioRoute } from "@/lib/routes";
 
 export interface SpatialCanvasProps {
-  initialRoute?: SignpostRoute;
+  initialRoute?: PortfolioRoute;
 }
 
 interface NodeCoordinate {
@@ -20,18 +19,13 @@ interface NodeCoordinate {
 }
 
 /**
- * Spatial 2D coordinates for each route relative to the Crossroads center (0vw, 0dvh).
- * Matches the exact directional arrow planks on the 3D wooden signpost:
- * - /about    : Top-Left plank  -> North-West (-100vw, -100dvh)
- * - /blog     : Top-Right plank -> North-East (+100vw, -100dvh)
- * - /projects : Bottom-Left     -> South-West (-100vw, +100dvh)
- * - /contact  : Bottom-Right    -> South-East (+100vw, +100dvh)
+ * Spatial 2D coordinates for each route relative to the Home Workstation center (0vw, 0dvh).
  */
-const SPATIAL_COORDS: Record<SignpostRoute, NodeCoordinate> = {
+const SPATIAL_COORDS: Record<PortfolioRoute, NodeCoordinate> = {
   "/": {
     x: "0vw",
     y: "0dvh",
-    label: "Crossroads Center",
+    label: "Workstation Center",
     trail: "Origin (0, 0)",
     distance: "0.0 km",
   },
@@ -65,7 +59,7 @@ const SPATIAL_COORDS: Record<SignpostRoute, NodeCoordinate> = {
   },
 };
 
-function normalizeRoute(pathname: string): SignpostRoute {
+function normalizeRoute(pathname: string): PortfolioRoute {
   if (pathname.startsWith("/about")) return "/about";
   if (pathname.startsWith("/blog")) return "/blog";
   if (pathname.startsWith("/projects")) return "/projects";
@@ -76,29 +70,31 @@ function normalizeRoute(pathname: string): SignpostRoute {
 export default function SpatialCanvas({
   initialRoute = "/",
 }: SpatialCanvasProps) {
-  const [activeRoute, setActiveRoute] = useState<SignpostRoute>(initialRoute);
+  const [activeRoute, setActiveRoute] = useState<PortfolioRoute>(initialRoute);
+  const activeRouteRef = useRef<PortfolioRoute>(initialRoute);
   const prefersReducedMotion = useReducedMotion();
 
-  // Navigate to a spatial node and push history state so Browser Back reverses smoothly
-  const navigateTo = useCallback((target: SignpostRoute) => {
-    setActiveRoute((current) => {
-      if (current === target) return current;
-      if (typeof window !== "undefined") {
-        window.history.pushState({ spatialRoute: target }, "", target);
-      }
-      return target;
-    });
+  useEffect(() => {
+    activeRouteRef.current = activeRoute;
+  }, [activeRoute]);
+
+  // Navigate to a spatial node and push history state outside React's state updater
+  const navigateTo = useCallback((target: PortfolioRoute) => {
+    if (activeRouteRef.current === target) return;
+    activeRouteRef.current = target;
+    if (typeof window !== "undefined") {
+      window.history.pushState({ spatialRoute: target }, "", target);
+    }
+    setActiveRoute(target);
   }, []);
 
   // Listen to browser Back / Forward buttons (popstate) to reverse the spatial camera
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const synced = normalizeRoute(window.location.pathname);
-    setActiveRoute(synced);
-
     const handlePopState = () => {
       const nextRoute = normalizeRoute(window.location.pathname);
+      activeRouteRef.current = nextRoute;
       setActiveRoute(nextRoute);
     };
 
@@ -165,24 +161,18 @@ export default function SpatialCanvas({
         className="relative h-dvh w-screen will-change-transform"
       >
         {/* ============================================================
-            NODE (0, 0): CROSSROADS HOME (Banner on Desktop + 3D Signpost)
+            NODE (0, 0): HOME WORKSTATION (3D Interactive Laptop)
            ============================================================ */}
         <main
-          aria-label="Crossroads Home Canvas"
-          className="absolute top-0 left-0 flex h-dvh w-screen flex-col overflow-hidden bg-[#f4ecdc]"
+          aria-label="Home Workstation Canvas"
+          className="absolute top-0 left-0 flex h-dvh w-screen flex-col overflow-hidden bg-[#f8fafc] p-4 sm:p-6 md:p-8 lg:p-12"
         >
-          {/* Top Horizontal S3 Banner Carousel (Hidden on mobile -> signpost only) */}
-          <BannerCarousel onNavigate={navigateTo} />
-
-          {/* 3D Wooden Signpost Navigation Area (Full 100dvh on mobile, remaining flex-1 on desktop) */}
+          {/* Framed 3D Laptop Stage with outer homepage margin */}
           <section
-            aria-label="3D Crossroads Signpost Navigation"
+            aria-label="3D Interactive Laptop Navigation"
             className="relative min-h-0 w-full flex-1"
           >
-            <SignpostNav
-              onNavigate={navigateTo}
-              isActiveView={activeRoute === "/"}
-            />
+            <LaptopHero onNavigate={navigateTo} />
           </section>
         </main>
 
@@ -486,7 +476,7 @@ export default function SpatialCanvas({
                     onClick={() => navigateTo("/")}
                     className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-[#dccbb1] bg-[#fdfbf7] px-4 py-2.5 text-xs font-semibold text-[#3a2014] transition-colors hover:bg-[#f4ecdc]"
                   >
-                    Back to Signpost Center
+                    Back to Desk Center
                   </button>
                 </div>
               </div>

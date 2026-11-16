@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Autumn Trail | Personal Blog & Portfolio",
-  description: "An interactive autumn crossroads and rustic wooden signpost personal portfolio.",
+  title: "Interactive 3D Portfolio | Workstation",
+  description: "An interactive Three.js 3D laptop workstation portfolio with customizable hardware and manga navigation.",
 };
 
 export default function RootLayout({
